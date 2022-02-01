@@ -1,6 +1,6 @@
 {
 	"name": "@douganderson444/svelte-solana-name-service",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"main": "dist",
 	"scripts": {
 		"dev": "svelte-kit dev",

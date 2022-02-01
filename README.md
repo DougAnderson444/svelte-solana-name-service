@@ -1,40 +1,18 @@
-# create-svelte
+# Solana Name Service - Svelte Component
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+```js
 
-## Creating a project
+<script lang="ts">
+	import { SNSWrapper } from '@douganderson444/svelte-solana-name-service';
 
-If you're seeing this, you've probably already done this step. Congrats!
+	export let handle = 'DougAnderson444';
+	export let pubKey;
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+</script>
 
-# create a new project in my-app
-npm init svelte@next my-app
+<!-- Pass in handle, get pubKey back  -->
+<SNSWrapper {handle} bind:pubKey />
+
+{handle}'s  pubKey is: {pubKey}
+
 ```
-
-> Note: the `@next` is temporary
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment.

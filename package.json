@@ -1,6 +1,6 @@
 {
 	"name": "@douganderson444/svelte-solana-name-service",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"main": "dist",
 	"scripts": {
 		"dev": "svelte-kit dev",
@@ -55,5 +55,6 @@
 		"process": "^0.11.10",
 		"url": "^0.11.0",
 		"util": "^0.12.4"
-	}
+	},
+	"repository": "https://github.com/DougAnderson444/svelte-solana-name-service"
 }

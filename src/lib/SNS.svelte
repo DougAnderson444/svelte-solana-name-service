@@ -6,7 +6,7 @@
 		pubKey: string;
 	}
 
-	export let contacts: contact[];
+	export let contacts: contact[] = [];
 
 	export let handle = 'DougAnderson444';
 	export let pubKey;

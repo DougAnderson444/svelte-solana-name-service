@@ -21,14 +21,14 @@ function commonjsRequire (path) {
 
 var naclFast = {exports: {}};
 
-var empty$1 = {};
+var empty = {};
 
-var empty$2 = /*#__PURE__*/Object.freeze({
+var empty$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
-	'default': empty$1
+	'default': empty
 });
 
-var require$$0$2 = /*@__PURE__*/getAugmentedNamespace(empty$2);
+var require$$0$2 = /*@__PURE__*/getAugmentedNamespace(empty$1);
 
 (function (module) {
 (function(nacl) {
@@ -11821,7 +11821,7 @@ function boolean() {
  * Ensure that a value is an instance of a specific class.
  */
 
-function instance$2(Class) {
+function instance$1(Class) {
   return define('instance', value => {
     return value instanceof Class || "Expected a `" + Class.name + "` instance, but received: " + print(value);
   });
@@ -28159,9 +28159,9 @@ function makeWebsocketUrl(endpoint) {
   return url.toString();
 }
 
-const PublicKeyFromString = coerce(instance$2(PublicKey), string(), value => new PublicKey(value));
+const PublicKeyFromString = coerce(instance$1(PublicKey), string(), value => new PublicKey(value));
 const RawAccountDataResult = tuple([string(), literal('base64')]);
-const BufferFromRawAccountData = coerce(instance$2(Buffer$1), RawAccountDataResult, value => Buffer$1.from(value[0], 'base64'));
+const BufferFromRawAccountData = coerce(instance$1(Buffer$1), RawAccountDataResult, value => Buffer$1.from(value[0], 'base64'));
 /**
  * Attempt to use a recent blockhash for up to 30 seconds
  * @internal
@@ -28563,7 +28563,7 @@ const KeyedAccountInfoResult = type({
   pubkey: PublicKeyFromString,
   account: AccountInfoResult
 });
-const ParsedOrRawAccountData = coerce(union([instance$2(Buffer$1), ParsedAccountDataResult]), union([RawAccountDataResult, ParsedAccountDataResult]), value => {
+const ParsedOrRawAccountData = coerce(union([instance$1(Buffer$1), ParsedAccountDataResult]), union([RawAccountDataResult, ParsedAccountDataResult]), value => {
   if (Array.isArray(value)) {
     return create(value, BufferFromRawAccountData);
   } else {
@@ -31984,38 +31984,11 @@ function is_empty(obj) {
 function append(target, node) {
     target.appendChild(node);
 }
-function append_styles(target, style_sheet_id, styles) {
-    const append_styles_to = get_root_for_style(target);
-    if (!append_styles_to.getElementById(style_sheet_id)) {
-        const style = element('style');
-        style.id = style_sheet_id;
-        style.textContent = styles;
-        append_stylesheet(append_styles_to, style);
-    }
-}
-function get_root_for_style(node) {
-    if (!node)
-        return document;
-    const root = node.getRootNode ? node.getRootNode() : node.ownerDocument;
-    if (root && root.host) {
-        return root;
-    }
-    return node.ownerDocument;
-}
-function append_stylesheet(node, style) {
-    append(node.head || node, style);
-}
 function insert(target, node, anchor) {
     target.insertBefore(node, anchor || null);
 }
 function detach(node) {
     node.parentNode.removeChild(node);
-}
-function destroy_each(iterations, detaching) {
-    for (let i = 0; i < iterations.length; i += 1) {
-        if (iterations[i])
-            iterations[i].d(detaching);
-    }
 }
 function element(name) {
     return document.createElement(name);
@@ -32026,36 +31999,8 @@ function text(data) {
 function space() {
     return text(' ');
 }
-function empty() {
-    return text('');
-}
-function listen(node, event, handler, options) {
-    node.addEventListener(event, handler, options);
-    return () => node.removeEventListener(event, handler, options);
-}
-function prevent_default(fn) {
-    return function (event) {
-        event.preventDefault();
-        // @ts-ignore
-        return fn.call(this, event);
-    };
-}
-function attr(node, attribute, value) {
-    if (value == null)
-        node.removeAttribute(attribute);
-    else if (node.getAttribute(attribute) !== value)
-        node.setAttribute(attribute, value);
-}
 function children(element) {
     return Array.from(element.childNodes);
-}
-function set_data(text, data) {
-    data = '' + data;
-    if (text.wholeText !== data)
-        text.data = data;
-}
-function set_input_value(input, value) {
-    input.value = value == null ? '' : value;
 }
 
 let current_component;
@@ -32085,9 +32030,6 @@ function schedule_update() {
 }
 function add_render_callback(fn) {
     render_callbacks.push(fn);
-}
-function add_flush_callback(fn) {
-    flush_callbacks.push(fn);
 }
 // flush() calls callbacks in this order:
 // 1. All beforeUpdate callbacks, in order: parents before children
@@ -32156,39 +32098,11 @@ function update($$) {
     }
 }
 const outroing = new Set();
-let outros;
 function transition_in(block, local) {
     if (block && block.i) {
         outroing.delete(block);
         block.i(local);
     }
-}
-function transition_out(block, local, detach, callback) {
-    if (block && block.o) {
-        if (outroing.has(block))
-            return;
-        outroing.add(block);
-        outros.c.push(() => {
-            outroing.delete(block);
-            if (callback) {
-                if (detach)
-                    block.d(1);
-                callback();
-            }
-        });
-        block.o(local);
-    }
-}
-
-function bind(component, name, callback) {
-    const index = component.$$.props[name];
-    if (index !== undefined) {
-        component.$$.bound[index] = callback;
-        callback(component.$$.ctx[index]);
-    }
-}
-function create_component(block) {
-    block && block.c();
 }
 function mount_component(component, target, anchor, customElement) {
     const { fragment, on_mount, on_destroy, after_update } = component.$$;
@@ -32318,63 +32232,72 @@ class SvelteComponent {
 
 /* src\lib\SNSWrapper.svelte generated by Svelte v3.46.3 */
 
-function create_fragment$1(ctx) {
+function create_fragment(ctx) {
 	let script;
+	let t1;
+	let div;
 
 	return {
 		c() {
 			script = element("script");
 			script.textContent = "global = globalThis; // for solana web3 repo";
+			t1 = space();
+			div = element("div");
 		},
 		m(target, anchor) {
 			append(document.head, script);
+			insert(target, t1, anchor);
+			insert(target, div, anchor);
 		},
 		p: noop,
 		i: noop,
 		o: noop,
 		d(detaching) {
 			detach(script);
+			if (detaching) detach(t1);
+			if (detaching) detach(div);
 		}
 	};
 }
 
-function instance$1($$self, $$props, $$invalidate) {
+function instance($$self, $$props, $$invalidate) {
 	let { handle } = $$props;
 	let { pubKey } = $$props;
 	let mounted;
 	let snsResolve;
-
-	const showhandleAccounts = async () => {
-		if (handle.length < 4) return;
-
-		if (handle.length < 44) {
-			// TODO: check naming service
-			if (!snsResolve) {
-				({ snsResolve } = await Promise.resolve().then(function () { return snsResolver; })); // https://github.com/solana-labs/solana-program-library/blob/3e945798fc70e111b131622c1185385c222610fd/name-service/js/src/twitter.ts#L217
-			}
-
-			try {
-				const result = await snsResolve(handle);
-
-				if (!result) {
-					$$invalidate(0, pubKey = ''); // clear pubkey results
-					return;
-				}
-
-				$$invalidate(0, pubKey = result);
-				console.log(`Handle ${handle} points to `, pubKey.toBase58());
-			} catch(error) {
-				console.warn(`Handle ${handle} points to nothing.`);
-			}
-		}
-	};
+	let showhandleAccounts;
 
 	onMount(async () => {
-		global = globalThis; // for solana web3 repo
 		const Buffer = await Promise.resolve().then(function () { return bufferEs6; }); // Solana Web3.js uses Buffers instead of UInt8Array =/
 		global.Buffer = Buffer.Buffer;
 		const process = await import('./browser-efde86b5.js');
 		global.process = process;
+
+		$$invalidate(3, showhandleAccounts = async () => {
+			if (handle.length < 4) return;
+
+			if (handle.length < 44) {
+				// TODO: check naming service
+				if (!snsResolve) {
+					({ snsResolve } = await Promise.resolve().then(function () { return snsResolver; })); // https://github.com/solana-labs/solana-program-library/blob/3e945798fc70e111b131622c1185385c222610fd/name-service/js/src/twitter.ts#L217
+				}
+
+				try {
+					const result = await snsResolve(handle);
+
+					if (!result) {
+						$$invalidate(0, pubKey = ''); // clear pubkey results
+						return;
+					}
+
+					$$invalidate(0, pubKey = result);
+					console.log(`Handle ${handle} points to `, pubKey.toBase58());
+				} catch(error) {
+					console.warn(`Handle ${handle} points to nothing.`);
+				}
+			}
+		});
+
 		$$invalidate(2, mounted = true);
 	});
 
@@ -32384,406 +32307,20 @@ function instance$1($$self, $$props, $$invalidate) {
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*mounted, handle*/ 6) {
+		if ($$self.$$.dirty & /*mounted, handle, showhandleAccounts*/ 14) {
 			mounted && handle && showhandleAccounts();
 		}
 	};
 
-	return [pubKey, handle, mounted];
+	return [pubKey, handle, mounted, showhandleAccounts];
 }
 
 class SNSWrapper extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$1, create_fragment$1, safe_not_equal, { handle: 1, pubKey: 0 });
+		init(this, options, instance, create_fragment, safe_not_equal, { handle: 1, pubKey: 0 });
 	}
 }
 
-/* src\lib\SNS.svelte generated by Svelte v3.46.3 */
-
-function add_css(target) {
-	append_styles(target, "svelte-irrvhg", "div.svelte-irrvhg{display:flex;width:auto}input.svelte-irrvhg{flex:1;padding:1em;margin:1em 0;background-color:white;border-radius:8px !important;filter:drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.1));transform:translate(-1px, -1px)}button.svelte-irrvhg{background-color:#2f89ffd1 !important}");
-}
-
-function get_each_context(ctx, list, i) {
-	const child_ctx = ctx.slice();
-	child_ctx[6] = list[i];
-	return child_ctx;
-}
-
-// (18:0) {#if handle}
-function create_if_block_1(ctx) {
-	let p;
-	let t0;
-	let b;
-	let t1;
-	let t2;
-	let if_block = /*pubKey*/ ctx[2] && create_if_block_2(ctx);
-
-	return {
-		c() {
-			p = element("p");
-			t0 = text("Public Key ");
-			b = element("b");
-			t1 = text(/*handle*/ ctx[1]);
-			t2 = text(": ");
-			if (if_block) if_block.c();
-		},
-		m(target, anchor) {
-			insert(target, p, anchor);
-			append(p, t0);
-			append(p, b);
-			append(b, t1);
-			append(p, t2);
-			if (if_block) if_block.m(p, null);
-		},
-		p(ctx, dirty) {
-			if (dirty & /*handle*/ 2) set_data(t1, /*handle*/ ctx[1]);
-
-			if (/*pubKey*/ ctx[2]) {
-				if (if_block) {
-					if_block.p(ctx, dirty);
-				} else {
-					if_block = create_if_block_2(ctx);
-					if_block.c();
-					if_block.m(p, null);
-				}
-			} else if (if_block) {
-				if_block.d(1);
-				if_block = null;
-			}
-		},
-		d(detaching) {
-			if (detaching) detach(p);
-			if (if_block) if_block.d();
-		}
-	};
-}
-
-// (20:30) {#if pubKey}
-function create_if_block_2(ctx) {
-	let t0;
-	let t1;
-	let div;
-	let button;
-	let mounted;
-	let dispose;
-
-	return {
-		c() {
-			t0 = text(/*pubKey*/ ctx[2]);
-			t1 = space();
-			div = element("div");
-			button = element("button");
-			button.textContent = "Add";
-			attr(button, "class", "svelte-irrvhg");
-			attr(div, "class", "submit svelte-irrvhg");
-		},
-		m(target, anchor) {
-			insert(target, t0, anchor);
-			insert(target, t1, anchor);
-			insert(target, div, anchor);
-			append(div, button);
-
-			if (!mounted) {
-				dispose = listen(button, "click", prevent_default(/*handleAdd*/ ctx[3]));
-				mounted = true;
-			}
-		},
-		p(ctx, dirty) {
-			if (dirty & /*pubKey*/ 4) set_data(t0, /*pubKey*/ ctx[2]);
-		},
-		d(detaching) {
-			if (detaching) detach(t0);
-			if (detaching) detach(t1);
-			if (detaching) detach(div);
-			mounted = false;
-			dispose();
-		}
-	};
-}
-
-// (35:0) {:else}
-function create_else_block(ctx) {
-	let t;
-
-	return {
-		c() {
-			t = text("No Contacts");
-		},
-		m(target, anchor) {
-			insert(target, t, anchor);
-		},
-		p: noop,
-		d(detaching) {
-			if (detaching) detach(t);
-		}
-	};
-}
-
-// (29:0) {#if contacts}
-function create_if_block(ctx) {
-	let ul;
-	let each_value = /*contacts*/ ctx[0];
-	let each_blocks = [];
-
-	for (let i = 0; i < each_value.length; i += 1) {
-		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
-	}
-
-	return {
-		c() {
-			ul = element("ul");
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].c();
-			}
-		},
-		m(target, anchor) {
-			insert(target, ul, anchor);
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].m(ul, null);
-			}
-		},
-		p(ctx, dirty) {
-			if (dirty & /*contacts*/ 1) {
-				each_value = /*contacts*/ ctx[0];
-				let i;
-
-				for (i = 0; i < each_value.length; i += 1) {
-					const child_ctx = get_each_context(ctx, each_value, i);
-
-					if (each_blocks[i]) {
-						each_blocks[i].p(child_ctx, dirty);
-					} else {
-						each_blocks[i] = create_each_block(child_ctx);
-						each_blocks[i].c();
-						each_blocks[i].m(ul, null);
-					}
-				}
-
-				for (; i < each_blocks.length; i += 1) {
-					each_blocks[i].d(1);
-				}
-
-				each_blocks.length = each_value.length;
-			}
-		},
-		d(detaching) {
-			if (detaching) detach(ul);
-			destroy_each(each_blocks, detaching);
-		}
-	};
-}
-
-// (31:2) {#each contacts as contact}
-function create_each_block(ctx) {
-	let li;
-	let t0_value = /*contact*/ ctx[6].handle + "";
-	let t0;
-	let t1;
-	let t2_value = /*contact*/ ctx[6].pubKey + "";
-	let t2;
-
-	return {
-		c() {
-			li = element("li");
-			t0 = text(t0_value);
-			t1 = text(": ");
-			t2 = text(t2_value);
-		},
-		m(target, anchor) {
-			insert(target, li, anchor);
-			append(li, t0);
-			append(li, t1);
-			append(li, t2);
-		},
-		p(ctx, dirty) {
-			if (dirty & /*contacts*/ 1 && t0_value !== (t0_value = /*contact*/ ctx[6].handle + "")) set_data(t0, t0_value);
-			if (dirty & /*contacts*/ 1 && t2_value !== (t2_value = /*contact*/ ctx[6].pubKey + "")) set_data(t2, t2_value);
-		},
-		d(detaching) {
-			if (detaching) detach(li);
-		}
-	};
-}
-
-function create_fragment(ctx) {
-	let snswrapper;
-	let updating_pubKey;
-	let t0;
-	let div;
-	let input;
-	let t1;
-	let t2;
-	let if_block1_anchor;
-	let current;
-	let mounted;
-	let dispose;
-
-	function snswrapper_pubKey_binding(value) {
-		/*snswrapper_pubKey_binding*/ ctx[4](value);
-	}
-
-	let snswrapper_props = { handle: /*handle*/ ctx[1] };
-
-	if (/*pubKey*/ ctx[2] !== void 0) {
-		snswrapper_props.pubKey = /*pubKey*/ ctx[2];
-	}
-
-	snswrapper = new SNSWrapper({ props: snswrapper_props });
-	binding_callbacks.push(() => bind(snswrapper, 'pubKey', snswrapper_pubKey_binding));
-	let if_block0 = /*handle*/ ctx[1] && create_if_block_1(ctx);
-
-	function select_block_type(ctx, dirty) {
-		if (/*contacts*/ ctx[0]) return create_if_block;
-		return create_else_block;
-	}
-
-	let current_block_type = select_block_type(ctx);
-	let if_block1 = current_block_type(ctx);
-
-	return {
-		c() {
-			create_component(snswrapper.$$.fragment);
-			t0 = space();
-			div = element("div");
-			input = element("input");
-			t1 = space();
-			if (if_block0) if_block0.c();
-			t2 = space();
-			if_block1.c();
-			if_block1_anchor = empty();
-			attr(input, "class", "new svelte-irrvhg");
-			attr(input, "placeholder", "Solana PublicKey or @Twitter Handle");
-			attr(div, "class", "svelte-irrvhg");
-		},
-		m(target, anchor) {
-			mount_component(snswrapper, target, anchor);
-			insert(target, t0, anchor);
-			insert(target, div, anchor);
-			append(div, input);
-			set_input_value(input, /*handle*/ ctx[1]);
-			insert(target, t1, anchor);
-			if (if_block0) if_block0.m(target, anchor);
-			insert(target, t2, anchor);
-			if_block1.m(target, anchor);
-			insert(target, if_block1_anchor, anchor);
-			current = true;
-
-			if (!mounted) {
-				dispose = listen(input, "input", /*input_input_handler*/ ctx[5]);
-				mounted = true;
-			}
-		},
-		p(ctx, [dirty]) {
-			const snswrapper_changes = {};
-			if (dirty & /*handle*/ 2) snswrapper_changes.handle = /*handle*/ ctx[1];
-
-			if (!updating_pubKey && dirty & /*pubKey*/ 4) {
-				updating_pubKey = true;
-				snswrapper_changes.pubKey = /*pubKey*/ ctx[2];
-				add_flush_callback(() => updating_pubKey = false);
-			}
-
-			snswrapper.$set(snswrapper_changes);
-
-			if (dirty & /*handle*/ 2 && input.value !== /*handle*/ ctx[1]) {
-				set_input_value(input, /*handle*/ ctx[1]);
-			}
-
-			if (/*handle*/ ctx[1]) {
-				if (if_block0) {
-					if_block0.p(ctx, dirty);
-				} else {
-					if_block0 = create_if_block_1(ctx);
-					if_block0.c();
-					if_block0.m(t2.parentNode, t2);
-				}
-			} else if (if_block0) {
-				if_block0.d(1);
-				if_block0 = null;
-			}
-
-			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
-				if_block1.p(ctx, dirty);
-			} else {
-				if_block1.d(1);
-				if_block1 = current_block_type(ctx);
-
-				if (if_block1) {
-					if_block1.c();
-					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
-				}
-			}
-		},
-		i(local) {
-			if (current) return;
-			transition_in(snswrapper.$$.fragment, local);
-			current = true;
-		},
-		o(local) {
-			transition_out(snswrapper.$$.fragment, local);
-			current = false;
-		},
-		d(detaching) {
-			destroy_component(snswrapper, detaching);
-			if (detaching) detach(t0);
-			if (detaching) detach(div);
-			if (detaching) detach(t1);
-			if (if_block0) if_block0.d(detaching);
-			if (detaching) detach(t2);
-			if_block1.d(detaching);
-			if (detaching) detach(if_block1_anchor);
-			mounted = false;
-			dispose();
-		}
-	};
-}
-
-function instance($$self, $$props, $$invalidate) {
-	let { contacts } = $$props;
-	let { handle = 'DougAnderson444' } = $$props;
-	let { pubKey } = $$props;
-
-	const handleAdd = () => {
-		$$invalidate(0, contacts = [...contacts, { handle, pubKey }]);
-		$$invalidate(1, handle = ''); // clear input
-	};
-
-	function snswrapper_pubKey_binding(value) {
-		pubKey = value;
-		$$invalidate(2, pubKey);
-	}
-
-	function input_input_handler() {
-		handle = this.value;
-		$$invalidate(1, handle);
-	}
-
-	$$self.$$set = $$props => {
-		if ('contacts' in $$props) $$invalidate(0, contacts = $$props.contacts);
-		if ('handle' in $$props) $$invalidate(1, handle = $$props.handle);
-		if ('pubKey' in $$props) $$invalidate(2, pubKey = $$props.pubKey);
-	};
-
-	return [
-		contacts,
-		handle,
-		pubKey,
-		handleAdd,
-		snswrapper_pubKey_binding,
-		input_input_handler
-	];
-}
-
-class SNS extends SvelteComponent {
-	constructor(options) {
-		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { contacts: 0, handle: 1, pubKey: 2 }, add_css);
-	}
-}
-
-export { SNS, SNSWrapper, snsResolve };
+export { SNSWrapper, snsResolve };
 //# sourceMappingURL=index.js.map

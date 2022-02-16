@@ -19,7 +19,7 @@
 		global.process = process;
 
 		showhandleAccounts = async () => {
-			if (handle.length < 4) return;
+			if (handle.length < 4) return false;
 
 			if (handle.length < 44) {
 				// TODO: check naming service

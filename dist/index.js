@@ -32274,7 +32274,7 @@ function instance($$self, $$props, $$invalidate) {
 		global.process = process;
 
 		$$invalidate(3, showhandleAccounts = async () => {
-			if (handle.length < 4) return;
+			if (handle.length < 4) return false;
 
 			if (handle.length < 44) {
 				// TODO: check naming service

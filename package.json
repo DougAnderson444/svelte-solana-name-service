@@ -1,9 +1,9 @@
 {
 	"name": "@douganderson444/svelte-solana-name-service",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"main": "dist/index.js",
 	"module": "dist/index.js",
-	"svelte": "src/lib/index.js",
+	"_svelte": "src/lib/index.js",
 	"scripts": {
 		"dev": "svelte-kit dev --port 3113",
 		"build": "svelte-kit build",

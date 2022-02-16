@@ -18,16 +18,16 @@ const formats = [
 ];
 
 const components = [
-	'SNS'
-	// 'SNSWrapper'
+	// 'SNS',
+	'SNSWrapper'
 ]; // globbySync('src/lib/**/*.svelte').map((path) => path.split('/')[2]);
 
 export default components.map((component) => ({
 	input: `src/lib/index.js`, // `src/lib/${component}.svelte`,
 	output: formats.map((format) => ({
 		name: component,
-		// file: `dist/index.js`, // gets added to deployments & package manager this way
-		dir: `dist/`,
+		// file: `dist/${component}.js`, // gets added to deployments & package manager this way
+		dir: `dist`,
 		format,
 		// inlineDynamicImports: true
 		sourcemap: true

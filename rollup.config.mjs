@@ -1,6 +1,6 @@
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import { globbySync } from 'globby';
@@ -50,7 +50,7 @@ export default components.map((component) => ({
 			emitCss: false // inline
 		}),
 		css({ output: 'bundle.css' }), // not needed if emitCss: false
-		resolve({
+		nodeResolve({
 			browser: true,
 			preferBuiltins: false,
 			dedupe: ['svelte']

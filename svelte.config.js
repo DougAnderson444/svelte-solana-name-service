@@ -1,5 +1,7 @@
 import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 import { esbuildCommonjs, viteCommonjs } from '@originjs/vite-plugin-commonjs';
 
@@ -18,8 +20,28 @@ const config = {
 		vite: () => ({
 			build: {
 				rollupOptions: {
-					plugins: [resolve(), commonjs()]
+					plugins: [
+						nodeResolve({
+							browser: true,
+							preferBuiltins: false,
+							dedupe: ['svelte']
+						}),
+						commonjs()
+					],
+					output: {
+						minifyInternalExports: false,
+						compact: false
+					},
+					plugins: []
+				},
+				minify: false,
+				sourcemap: true,
+				optimization: {
+					minimize: false
 				}
+			},
+			optimization: {
+				minimize: false
 			},
 			plugins: [viteCommonjs()],
 			optimizeDeps: {

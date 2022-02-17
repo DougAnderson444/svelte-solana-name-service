@@ -1,5 +1,6 @@
 // import type { PublicKey } from '@solana/web3.js';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey } from '../modules/@solana/web3.js/web3.js';
+// import { Connection, PublicKey } from '@solana/web3.js';
 
 import { HASH_PREFIX, NAME_PROGRAM_ID, TWITTER_ROOT_PARENT_REGISTRY_KEY } from './constants';
 

@@ -1,4 +1,5 @@
-import { PublicKey } from '@solana/web3.js';
+// import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '../modules/@solana/web3.js/web3.js';
 
 export const DEV_NET = 'devnet';
 export const MAIN_NET = 'mainnet';

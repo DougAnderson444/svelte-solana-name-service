@@ -43,13 +43,13 @@ const config = {
 			optimization: {
 				minimize: false
 			},
-			plugins: [viteCommonjs()],
-			optimizeDeps: {
-				esbuildOptions: {
-					plugins: [esbuildCommonjs(['@solana/web3.js'])] // the problematic cjs module
-				},
-				include: ['@solana/web3.js'] // also here
-			}
+			plugins: [viteCommonjs()]
+			// optimizeDeps: {
+			// 	esbuildOptions: {
+			// 		plugins: [esbuildCommonjs(['@solana/web3.js'])] // the problematic cjs module
+			// 	},
+			// 	include: ['@solana/web3.js'] // also here
+			// }
 		})
 	}
 };
